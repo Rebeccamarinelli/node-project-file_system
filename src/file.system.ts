@@ -18,25 +18,25 @@ export function exploreDirectory(workDir: string, prefix: string =''): void {
             
             const minutesAgo = Math.floor(timeFromModify.minutes);
             let timing = ` (${minutesAgo} minuti fa)`;
-            if (minutesAgo < 2) {
-                timing = chalk.blueBright(timing); 
-              }
-
-              let entityName: string;
-
+        
               if (entity.isDirectory()) {
-                
-                entityName = chalk.yellowBright(entity.name);
-                console.log(`${prefix}|--${entityName}`);
+                console.log(chalk.yellow(`${prefix}|--${entity.name}`));
                 const newPrefix =`${prefix}|   `;
                 const subDir = path.join(workDir, entity.name);   
                 exploreDirectory(subDir, newPrefix);    
-              } else {
+              }else {
 
-                entityName = minutesAgo < 2 ? chalk.blueBright(entity.name + timing) : entity.name + timing;
-                console.log(`${prefix}|--${entityName}`);
+                if(minutesAgo > 5 && minutesAgo < 30){
+                  console.log(chalk.magenta(`${prefix}|--${entity.name + timing}`));
+                }
+                else if(minutesAgo < 2){
+                  console.log(chalk.blueBright(`${prefix}|--${entity.name + timing}`));
+                }
+                else{
+                  console.log(`${prefix}|--${entity.name + timing}`); 
+                }
+                
               }
-
     }
 }
 
